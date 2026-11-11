@@ -1,0 +1,1 @@
+User-supplied buttons.zip: 27 PNGs. 15초 챌린지 image was NOT present; challenge_fallback.png retains the prior image and needs a user-approved replacement. Some user PNGs have nontransparent outer pixels; these are preserved unchanged.
