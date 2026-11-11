@@ -52,7 +52,8 @@ function render(){
  const visibleWidth=fullWidth*ratio;
  $('stick').style.left=(x1+(fullWidth-visibleWidth)/2)+'px';
  $('stick').style.width=visibleWidth+'px';
- $('stick').style.top='77%';
+ const mouthY=(l.top-a.top)+l.height*.76;
+ $('stick').style.top=Math.max(0,Math.min(a.height,mouthY))+'px';
  $('stick').style.opacity=ratio<=0?'0':'1';
 }
 function start(mode){stopTimers();state.mode=mode;state.left=0;state.right=0;state.abandoned=false;state.phase='ready';$('ending').classList.add('hidden');$('endingActions').classList.add('hidden');$('endingReaction').classList.add('hidden');$('endingReactions').classList.add('hidden');$('modeName').textContent=mode==='free'?'FREE MODE':'CHALLENGE MODE';$('stopBtn').textContent='포기하고 결과 보기';$('timer').textContent=mode==='free'?'∞':'15.0';$('relationStatus').textContent=state.relation==='like'?'좋아하는 상대 · '+(state.proposer==='male'?'남자가 제안':'여자가 제안'):'싫어하는 상대';$('status').textContent=mode==='free'?'원하는 쪽을 터치하세요':'15초 동안 더 많이 먹으세요';show('game');setImage('left','idle');setImage('right','idle');render();if(mode==='challenge')countdown();else state.phase='playing'}
@@ -160,3 +161,5 @@ ART_KEYS.forEach(key=>{
  document.querySelector('[data-art-reset="'+key+'"]').addEventListener('click',async()=>{try{await artStorage(key,null);if(artUrls[key])URL.revokeObjectURL(artUrls[key]);delete artUrls[key];refreshArt();$('artEditorStatus').textContent='기본 이미지로 복원했습니다.'}catch(err){$('artEditorStatus').textContent='복원 실패: '+err.message}})
 });
 loadArt();
+
+window.addEventListener('resize',()=>{if(state.phase==='playing'||state.phase==='ready')requestAnimationFrame(render)},{passive:true});
